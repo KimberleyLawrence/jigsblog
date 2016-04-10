@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+{% load staticfiles %}
+<head>
+  <title> Baby Maddock's Online Baby Shower </title>
+  <meta name="viewport" content="width=device-width"></meta>
+  <link href='https://fonts.googleapis.com/css?family=Ribeye|Bubblegum+Sans' rel='stylesheet' type='text/css'/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="shortcut icon" href="{% static 'mini_teddy_icon.jpg' %}" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'index.css' %}"/>
+</head>
+<body>
+  <div class="container">
+    <a href='{% url "index" %}'>
+    <div class="jumbotron">
+      <h1> Jumbotron heading </h1>
+      <p class="lead"> Jigs blog of random shit </p>
+      {% if request.path != "/blog/post/new" %}
+      <p><a class="btn btn-lg btn-success" href="{% url 'post_new' %}" role="button"> Add a post </a></p>
+      {% endif %}
+    </div>
+  </a>
+
+
+{% block content %}
+{% endblock %}
+    </div>
+  </div>
+</body>
+</html>

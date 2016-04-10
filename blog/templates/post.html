@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    {{ form.errors }}
+    {% if post %}
+      <form action="{% url 'post_edit' post.id %}" method="post" enctype="multipart/form-data">
+    {% else %}
+      <form action="{% url 'post_new' %}" method="post" enctype="multipart/form-data">
+    {% endif %}
+
+
+      {% csrf_token %}
+      {{form.as_p}}
+      <hr>
+      <input type="submit" class="btn btn-success btn-lg" value="Submit">
+    </form>
+  </div>
+</div>
+
+<hr />
+<h1>DEBUG!</h1>
+{% if debug_posts %}
+{% for post in debug_posts %}
+<li>{{post.id}} <a href="{% url 'post_edit' post.id %}">edit</a></li>
+{% endfor %}
+{% endif %}
+<code>{{ post.debug }}</code>
+{% endblock %}

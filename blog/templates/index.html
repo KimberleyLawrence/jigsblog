@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+{% load staticfiles %}
+<div class="row">
+{% for post in posts %}
+
+  <div class="col-md-6">
+    <!--
+    <code>{{ post.debug }}</code>
+    -->
+    <h3> {{ post.title }}
+      <a href="{% url 'post_edit' post.id %}">
+        <i class="fa fa-pencil-square-o"></i>
+      </a>
+    </h3>
+    <p class="lead"> {{ post.text}} </p>
+    <img src="{% static  post.image %}" />
+
+  </div>
+
+
+{% endfor %}
+</div>
+{% endblock %}
