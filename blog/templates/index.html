@@ -2,23 +2,57 @@
 {% block content %}
 {% load staticfiles %}
 <div class="row">
-{% for post in posts %}
-
-  <div class="col-md-6">
+  <!--
+  -->
+  {% for post in posts %}
     <!--
-    <code>{{ post.debug }}</code>
+    {{post.debug}}
     -->
-    <h3> {{ post.title }}
-      <a href="{% url 'post_edit' post.id %}">
-        <i class="fa fa-pencil-square-o"></i>
-      </a>
-    </h3>
-    <p class="lead"> {{ post.text}} </p>
-    <img src="{% static  post.image %}" />
+    <a name="{{post.id}}-{{post.title}}"></a>
+    <div class="col-md-offset-2 col-md-8">
+
+      <!-- POST TITLE -->
+      <div class="page-header">
+        <h1>{{ post.title }}
+          <small> by {{post.user.first_name}}</small>
+
+        {% if post.user == request.user %}
+          {{post.html_edit_link|safe}}
+        {% endif %}
+          </h1>
+      </div>
+
+
+
+
+      <!-- END TITLE -->
+
+      <!-- POST TEXT -->
+      <p class="lead"> {{ post.text}} </p>
+      <!-- END TEXT -->
+
+      <!-- POST IMAGE -->
+      {% if post.image %}
+      <img src="{% static  post.image %}" class="img-responsive center-block img-thumbnail" />
+      {% endif %}
+      <!-- END IMAGE -->
 
   </div>
 
 
 {% endfor %}
 </div>
+
+<script>
+
+$.getJSON( "{% url 'post_get' 0 10 %}", function( data ) {
+
+    var items = [];
+    $.each( data, function( key, val ) {
+       console.log(val);
+    });
+
+});
+</script>
+
 {% endblock %}

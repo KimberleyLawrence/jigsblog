@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+{% load staticfiles %}
+<div class="row">
+  <div class="col-md-12">
+
+    {% if posts %}
+    <table class="table table-striped">
+      <tr>
+        <th>id</th>
+        <th>title</th>
+        <!--<th>words</th>-->
+        <th>picture</th>
+        <th>publish date</th>
+        <th>admin</th>
+        <th>delete</th>
+      </tr>
+    {% for post in posts %}
+    <tr>
+      <td>{{post.id}}</td>
+      <td>{{post.title}}</td>
+      <!--<td>{{post.text}}</td>-->
+      <td>
+        {% if post.image %}
+          <img src="{% static  post.image %}"
+              class="img-responsive center-block thumbnail img-thumbnail" />
+        {% endif %}
+      </td>
+      <td>{{post.postdate}}</td>
+      <td>{{post.html_edit_link|safe}}</td>
+
+      <td>{{post.html_delete_link|safe}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+  <p>No posts found for {{request.user}}</p>
+  {% endif %}
+  </div>
+</div>
+
+<hr>
+<h1>DEBUG!</h1>
+{% if debug_posts %}
+{% for post in debug_posts %}
+<li>{{post.id}} <a href="{% url 'post_edit' post.id %}">edit</a></li>
+{% endfor %}
+{% endif %}
+<code>{{ post.debug }}</code>
+{% endblock %}
