@@ -1,4 +1,4 @@
-*pyc
+*.pyc
 *settings*
-*sql*
-*user_images*
+*.sqlite3
+*/user_images/*
