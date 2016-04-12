@@ -1,0 +1,3 @@
+scp jigsblog/settings.py root@www.kimberleylawrence.com:/root/jigsblog/jigsblog/settings.py
+ssh root@www.kimberleylawrence.com "cd /jigsblog && git pull && chown -R www-data: /jigsblog"
+ssh root@www.kimberleylawrence.com "cd /jigsblog && ./manage.py collectstatic --no-input"
