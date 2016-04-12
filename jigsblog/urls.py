@@ -20,11 +20,11 @@ from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    url(r'^blog/admin/', admin.site.urls),
+    url(r'^admin/', admin.site.urls),
     url(r'^blog/', include('blog.urls')),
-    url(r'^blog/accounts/login/', auth_views.login, name='login'),
-    url(r'^blog/accounts/logout/', auth_views.logout, name='logout'),
-    url(r'^blog/accounts/profile/', include('blog.urls')),
+    url(r'^accounts/login/', auth_views.login, name='login'),
+    url(r'^accounts/logout/', auth_views.logout, name='logout'),
+    url(r'^accounts/profile/', include('blog.urls')),
     url('',include ('social.apps.django_app.urls', namespace='social')),
     url(r'^$', include('blog.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.MEDIA_ROOT)
