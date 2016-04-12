@@ -41,12 +41,5 @@
   </div>
 </div>
 
-<hr>
-<h1>DEBUG!</h1>
-{% if debug_posts %}
-{% for post in debug_posts %}
-<li>{{post.id}} <a href="{% url 'post_edit' post.id %}">edit</a></li>
-{% endfor %}
-{% endif %}
-<code>{{ post.debug }}</code>
+
 {% endblock %}
