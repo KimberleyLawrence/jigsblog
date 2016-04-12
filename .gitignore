@@ -2,3 +2,9 @@
 *settings*
 *.sqlite3
 */user_images/*
+
+*.pyc
+
+*.pyc
+
+*.sqlite3
