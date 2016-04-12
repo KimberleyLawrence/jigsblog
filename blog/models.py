@@ -20,14 +20,17 @@ class Post(models.Model):
         dump = self.__dict__
         return "{0}".format(dump)
 
-    def json(self):
+    def json(self, user=None):
         j = self.__dict__
         u = self.user
+        j['is_owner'] = u == user
         del j['_state']
         del j['postdate']
         del j['_user_cache']
+        j['edit_button'] = self.html_edit_link()
         j['edit_link'] = self.edit_link
         j['delete_link'] = self.delete_link
+        j['view_button'] = self.html_view_link()
         j['user'] = {
             'first_name': u.first_name,
             'first_last': u.last_name
@@ -50,3 +53,11 @@ class Post(models.Model):
     def html_delete_link(self):
         return "<a href='{0}' title='delete {1}'><i class='fa fa-trash'></i> </a>" \
         .format(self.delete_link,self.title)
+
+    @property
+    def view_link(self):
+        return reverse('post_view', args=[self.id])
+
+    def html_view_link(self):
+        return "<a href='{0}' title='share {1}'><i class='fa fa-link'></i> </a>" \
+        .format(self.view_link,self.title)

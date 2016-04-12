@@ -1,58 +1,69 @@
 {% extends "base.html" %}
 {% block content %}
 {% load staticfiles %}
-<div class="row">
-  <!--
-  -->
-  {% for post in posts %}
-    <!--
-    {{post.debug}}
-    -->
-    <a name="{{post.id}}-{{post.title}}"></a>
-    <div class="col-md-offset-2 col-md-8">
+<div class="row posts"></div>
 
-      <!-- POST TITLE -->
-      <div class="page-header">
-        <h1>{{ post.title }}
-          <small> by {{post.user.first_name}}</small>
-
-        {% if post.user == request.user %}
-          {{post.html_edit_link|safe}}
-        {% endif %}
-          </h1>
-      </div>
-
-
-
-
-      <!-- END TITLE -->
-
-      <!-- POST TEXT -->
-      <p class="lead"> {{ post.text}} </p>
-      <!-- END TEXT -->
-
-      <!-- POST IMAGE -->
-      {% if post.image %}
-      <img src="{% static  post.image %}" class="img-responsive center-block img-thumbnail" />
-      {% endif %}
-      <!-- END IMAGE -->
-
+{% if not post_view %}
+<div class='row'>
+  <div class="col-md-offset-2 col-md-8">
+    <button class="btn btn-success btn-lg btn-block load_posts_button"  onclick='load_post()'>load more posts</button>
   </div>
-
-
-{% endfor %}
 </div>
+{% endif %}
+
 
 <script>
+var offset = 0;
+var number_of_posts = 5;
 
-$.getJSON( "{% url 'post_get' 0 10 %}", function( data ) {
 
+function load_post(){
+
+{% if post_view %}
+ var url = "/blog/api/post/{{post_id}}/";
+{% else %}
+ var url = "/blog/api/posts/"+offset+"/"+number_of_posts+"/";
+ {% endif %}
+
+ console.log(url);
+
+$.getJSON(url,  function( data ) {
+    offset = offset+number_of_posts;
     var items = [];
-    $.each( data, function( key, val ) {
-       console.log(val);
-    });
+    console.log(data.posts.length);
+    if(data.posts.length<number_of_posts){
+      $('.load_posts_button').hide();
+    }
+    $.each( data.posts, function( key, post ) {
+       console.log(post);
+       var image='';
+       if (post.image!=''){
+         image=`<img src="/static/`+ post.image +`" class="img-responsive center-block img-thumbnail" />`;
+       }
+       var edit_button='';
+       if (post.is_owner == true){
+         edit_button= post.edit_button;
+       }
+       $('.posts').append(`
+       <div class="col-md-offset-2 col-md-8">
+         <div class="page-header">
+           <h1> `+post.title+`
+             <small> by `+post.user.first_name+`<span class='pull-right'> `+edit_button+post.view_button+`</span></small>
+           </h1>
+           <p class="lead"> `+post.text+` </p>
+           `+ image +`
+         </div>
+       </div>
 
+
+
+       `);
+    });
 });
+}
+
+load_post();
+
 </script>
 
 {% endblock %}

@@ -23,10 +23,13 @@ def render(request, template, render_keys):
 #_____________index________________
 @login_required
 def index(request):
-    posts = Post.objects.all().order_by('-postdate')
+
+    posts = Post.objects.all().order_by('-postdate')[0:5]
 
     return render(request,'index.html',{
-        'posts': posts,
+        'posts': [],
+        'number_of_posts': 5,
+
 
     })
 
@@ -48,8 +51,8 @@ def post_new(request, post_id=None):
 
         if form.is_valid():
             post = form.save()
-            messages.success(request, 'Your post was successful, thank you!')
-            return HttpResponseRedirect(reverse('index') + "#{0.id}-{0.title}".format(post))
+
+            return HttpResponseRedirect(reverse('post_view',args=[post.id]))
     else:
         form = PostForm(instance=post)
 
@@ -75,7 +78,7 @@ def post_get(request, post_offset=0, number_of_posts=5):
     # Turn into into JSON for jQuery
     # data = serializers.serialize("json", [p.__dict__ for p in posts])
     import json
-    posts = [p.json() for p in all_posts]
+    posts = [p.json(request.user) for p in all_posts]
     data = {
         'post_offset': post_offset,
         'number_of_posts': number_of_posts,
@@ -84,6 +87,29 @@ def post_get(request, post_offset=0, number_of_posts=5):
         'posts': posts
     }
     return HttpResponse(json.dumps(data), content_type="application/json")
+
+
+
+
+#__________api view - post_get __________________
+@login_required
+def api_post_view(request, post_id):
+    # Query the posts
+    all_posts = Post.objects.filter(id=post_id)
+    # Turn into into JSON for jQuery
+    # data = serializers.serialize("json", [p.__dict__ for p in posts])
+    import json
+    posts = [p.json(request.user) for p in all_posts]
+    data = {
+        'post_offset': 0,
+        'number_of_posts': 0,
+        'start': 0,
+        'end': 0,
+        'posts': posts,
+        'post_id': post_id
+    }
+    return HttpResponse(json.dumps(data), content_type="application/json")
+
 
 
 #_____________post_new________________
@@ -111,3 +137,21 @@ def post_delete(request, post_id=None):
     post.delete()
     messages.success(request, 'Your post was successfully deleted')
     return HttpResponseRedirect(reverse('post_manage'))
+
+#_____________post_view_______________
+@login_required
+def post_view(request, post_id=None):
+    print "post_view", post_id
+
+
+
+    posts = Post.objects.filter(id=post_id)
+    print posts
+
+
+    return render(request,'index.html',{
+        'posts': posts,
+        'post_view': True,
+        'number_of_posts': 1,
+        'post_id': post_id,
+    })

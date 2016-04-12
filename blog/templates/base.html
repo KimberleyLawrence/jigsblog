@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous"/>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-  
+
   <link rel="stylesheet" href="{% static 'index.css' %}"/>
 </head>
 <body>
@@ -78,16 +78,16 @@
 
 
   <div class="container">
-
+{% if not post_view %}
     <div class="jumbotron">
 
-      <h1> Jumbotron heading </h1>
+      <h1> Jig's Family Blog </h1>
       <p class="lead"> Jigs blog of random shit </p>
       {% if not edit_or_create_post and request.user.is_authenticated %}
       <p><a class="btn btn-lg btn-success" href="{% url 'post_new' %}" role="button"> Add a post </a></p>
       {% endif %}
     </div>
-
+    {% endif %}
     {% if messages %}
 
   {% for message in messages %}

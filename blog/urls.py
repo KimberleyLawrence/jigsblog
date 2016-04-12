@@ -9,4 +9,6 @@ urlpatterns =[
     url(r'post/manage/$', views.post_manage, name='post_manage'),
     url(r'post/delete/(?P<post_id>[0-9]+)/$', views.post_delete, name='post_delete'),
     url(r'api/posts/(?P<post_offset>[0-9]+)/(?P<number_of_posts>[0-9]+)/$', views.post_get, name='post_get'),
+    url(r'api/post/(?P<post_id>[0-9]+)/$', views.api_post_view, name='api_post_view'),
+    url(r'post/view/(?P<post_id>[0-9]+)/$', views.post_view, name='post_view'),
 ]

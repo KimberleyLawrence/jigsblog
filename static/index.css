@@ -22,7 +22,9 @@ h3{
 }
 a{
   color: grey;
+  text-decoration: none;
 }
 a:hover{
   color:green;
+  text-decoration: none;
 }
