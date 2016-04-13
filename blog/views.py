@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.core import serializers
 
 
-@login_required
+#@login_required
 def render(request, template, render_keys):
     try:
         render_keys['debug_posts'] = Post.objects.filter(user=request.user)
@@ -21,7 +21,7 @@ def render(request, template, render_keys):
 # Create your views here.
 
 #_____________index________________
-@login_required
+#@login_required
 def index(request):
 
     posts = Post.objects.all().order_by('-postdate')[0:5]
@@ -35,7 +35,7 @@ def index(request):
 
 
 #_____________post_new________________
-@login_required
+#@login_required
 def post_new(request, post_id=None):
     print "post_new", post_id
     form = PostForm({'user':request.user})
@@ -68,7 +68,7 @@ def post_new(request, post_id=None):
     )
 
 #__________api view - post_get __________________
-@login_required
+#@login_required
 def post_get(request, post_offset=0, number_of_posts=5):
     # Query the posts
     start = int(post_offset)
@@ -92,7 +92,7 @@ def post_get(request, post_offset=0, number_of_posts=5):
 
 
 #__________api view - post_get __________________
-@login_required
+#@login_required
 def api_post_view(request, post_id):
     # Query the posts
     all_posts = Post.objects.filter(id=post_id)
@@ -113,7 +113,7 @@ def api_post_view(request, post_id):
 
 
 #_____________post_new________________
-@login_required
+#@login_required
 def post_manage(request):
     """ List all my posts for me to view and edit..."""
     posts = Post.objects.filter(user=request.user)
@@ -123,7 +123,7 @@ def post_manage(request):
 
 
 #___________post_delete___________
-@login_required
+#@login_required
 def post_delete(request, post_id=None):
     print "post_delete", post_id
 
@@ -139,7 +139,7 @@ def post_delete(request, post_id=None):
     return HttpResponseRedirect(reverse('post_manage'))
 
 #_____________post_view_______________
-@login_required
+#@login_required
 def post_view(request, post_id=None):
     print "post_view", post_id
 
