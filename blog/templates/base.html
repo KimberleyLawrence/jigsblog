@@ -80,9 +80,13 @@
   <div class="container">
 {% if not post_view %}
     <div class="jumbotron">
-
+      {% if request.user.is_authenticated %}
       <h1> Jig's Family Blog </h1>
       <p class="lead"> Jigs blog of random shit </p>
+      {% else %}
+      <h1> Welcome to Jig's Blog </h1>
+      <p class="lead"> A collection of all things random</p>
+      {% endif %}
       {% if not edit_or_create_post and request.user.is_authenticated %}
       <p><a class="btn btn-lg btn-success" href="{% url 'post_new' %}" role="button"> Add a post </a></p>
       {% endif %}
