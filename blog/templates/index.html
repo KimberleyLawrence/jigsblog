@@ -4,9 +4,9 @@
 <div class="row posts"></div>
 
 {% if not post_view %}
-<div class='row'>
+<div class="row">
   <div class="col-md-offset-2 col-md-8">
-    <button class="btn btn-success btn-lg btn-block load_posts_button"  onclick='load_post()'>load more posts</button>
+    <button class="btn btn-success btn-lg btn-block load_posts_button"  onclick="load_post();">load more posts</button>
   </div>
 </div>
 {% endif %}
@@ -15,7 +15,6 @@
 <script>
 var offset = 0;
 var number_of_posts = 5;
-
 
 function load_post(){
 
@@ -35,29 +34,29 @@ $.getJSON(url,  function( data ) {
       $('.load_posts_button').hide();
     }
     $.each( data.posts, function( key, post ) {
-       console.log(post);
-       var image='';
-       if (post.image!=''){
-         image=`<img src="/static/`+ post.image +`" class="img-responsive center-block img-thumbnail" />`;
+       var image = '&nbsp;';
+       if (post.image != ''){
+         image = '<img src="/static/' + post.image + '" class="img-responsive center-block img-thumbnail" />';
        }
-       var edit_button='';
-       if (post.is_owner == true){
+
+       var edit_button = '';
+       if (post.is_owner === true){
          edit_button= post.edit_button;
        }
-       $('.posts').append(`
-       <div class="col-md-offset-2 col-md-8">
-         <div class="page-header">
-           <h1> `+post.title+`
-             <small> by `+post.user.first_name+`<span class='pull-right'> `+edit_button+post.view_button+`</span></small>
-           </h1>
-           <p class="lead"> `+post.text+` </p>
-           `+ image +`
-         </div>
-       </div>
 
-
-
-       `);
+       var post_html = '<div class="col-md-offset-2 col-md-8">' +
+         '<div class="page-header">' +
+           '<h1> ' + post.title +
+             '<small> by ' + post.user.first_name +
+               '<span class="pull-right"> ' +
+                edit_button + post.view_button +
+              '</span></small>' +
+           '</h1>' +
+           '<p class="lead"> ' + post.text + ' </p>' +
+           image +
+         '</div>' +
+       '</div>';
+       $('.posts').append(post_html);
     });
 });
 }
